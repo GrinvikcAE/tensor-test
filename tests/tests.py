@@ -58,7 +58,10 @@ def test_third_scenario(driver=webdriver.Chrome()):
     download_text = main_page.find_element(ThirdScenario.LOCATOR_PLUGIN_DOWNLOAD, SLEEP_TIME).text.split()[-2]
     main_page.click_element(ThirdScenario.LOCATOR_PLUGIN_DOWNLOAD, SLEEP_TIME)
     sleep(30)
-    file = os.listdir(DOWNLOAD_DIR)[0]
+    if os.listdir(DOWNLOAD_DIR)[0].startswith('.'):
+        file = os.listdir(DOWNLOAD_DIR)[1]
+    else:
+        file = os.listdir(DOWNLOAD_DIR)[0]
     file_size = round(os.stat(f'{DOWNLOAD_DIR}{file}').st_size / 1024 / 1024, 2)
     assert float(download_text) - 0.5 < file_size < float(download_text) + 0.5
     driver.quit()
